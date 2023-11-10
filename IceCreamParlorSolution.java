@@ -39,12 +39,15 @@ class IceCreamParlorResult {
     public static int countSumsDp(int[] arr, int initial_t, int initial_f) {
         int[][][] dp = new int[arr.length + 1][initial_t + 1][initial_f + 1];
 
+        //Fill base cases first
         for(int t = 0; t < initial_t; t++) {
             for(int f = 0; f < initial_f; f++) {
                 dp[arr.length][t][f] = 0;
             }
         }
 
+        //Take care to fill base cases in the same order as in the recursive method:
+        //set the positive base case (when t == f == 0) after, so it won't be overridden
         for(int i = 0; i < dp.length; i++) {
             for(int t = 0; t < dp[i].length; t++) {
                 dp[i][t][0] = 0;
@@ -52,6 +55,7 @@ class IceCreamParlorResult {
             dp[i][0][0] = 1;
         }
 
+        //Filling order: i -> 0, t -> initial_t, f -> 0
         for(int i = dp.length - 2; i >= 0; i--) {
             for(int t = 1; t <= initial_t; t++) {
                 for(int f = initial_f; f > 0; f--) {
@@ -71,7 +75,7 @@ class IceCreamParlorResult {
     Count the ways to combine arr[i..] such that `f` items sum to `t` money.
     */
     public static int countSumsRec(int[] arr, int i, int t, int f) {
-        System.out.println(Arrays.toString(arr) + " " + i + " " + t + " " + f);
+        //This is based on SubsetSum.
 
         //if the friends and the money reach 0 at the same time, this is a working case
         if(t == 0 && f == 0) return 1;
